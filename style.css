@@ -1,0 +1,190 @@
+/* ==========================================================
+   ORBIT — стили
+   1. Темы (переменные)  2. База  3. Шапка  4. Hero с орбитами
+   5. Карточки и элементы  6. Страницы  7. Загрузчик и toast
+   8. Адаптивность
+   ========================================================== */
+
+/* ---------- 1. Темы: переключаются атрибутом data-theme на <html> ---------- */
+:root, [data-theme="dark"] {
+  --bg: #06070b; --surface: rgb(255 255 255 / .05); --line: rgb(255 255 255 / .1);
+  --text: #f2f3fa; --muted: #9a9fb8; --a1: #8b5cf6; --a2: #3b82f6; --glow: rgb(139 92 246 / .35);
+  --nav-bg: rgb(6 7 11 / .7);
+}
+[data-theme="nebula"] {
+  --bg: #0c0619; --surface: rgb(200 160 255 / .07); --line: rgb(200 160 255 / .16);
+  --text: #f6f0ff; --muted: #b09cd0; --a1: #c084fc; --a2: #6366f1; --glow: rgb(192 132 252 / .4);
+  --nav-bg: rgb(12 6 25 / .7);
+}
+[data-theme="light"] {
+  --bg: #f1f2fa; --surface: rgb(255 255 255 / .75); --line: rgb(20 20 70 / .12);
+  --text: #14162b; --muted: #5d617d; --a1: #7c3aed; --a2: #2563eb; --glow: rgb(124 58 237 / .25);
+  --nav-bg: rgb(241 242 250 / .8);
+}
+
+/* ---------- 2. База ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; color: var(--text); background: var(--bg); min-height: 100vh;
+  font: 400 1rem/1.6 "Onest", "Segoe UI", system-ui, sans-serif; transition: background .4s, color .4s;
+}
+/* Мягкие цветные «туманности» на фоне */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(60vmax 40vmax at 85% -10%, var(--glow), transparent 60%),
+              radial-gradient(50vmax 40vmax at -10% 60%, color-mix(in srgb, var(--a2) 22%, transparent), transparent 60%);
+}
+h1, h2, h3 { font-family: "Unbounded", "Segoe UI", sans-serif; font-weight: 500; margin: 0 0 .5em; line-height: 1.15; }
+h1 { font-size: clamp(1.7rem, 4.5vw, 2.6rem); } h2 { font-size: clamp(1.3rem, 3vw, 1.9rem); } h3 { font-size: 1rem; }
+a { color: inherit; text-decoration: none; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--a1); outline-offset: 2px; }
+.muted { color: var(--muted); } .grow { flex: 1; min-width: 0; } .row { display: flex; flex-wrap: wrap; gap: 1rem; }
+.view { max-width: 1100px; margin: 0 auto; padding: 5.5rem 1.2rem 3rem; }
+.view.enter { animation: enter .5s cubic-bezier(.2, .7, .2, 1); }   /* переход между страницами */
+@keyframes enter { from { opacity: 0; transform: translateY(14px); filter: blur(6px); } }
+
+.btn {
+  display: inline-block; border: 0; border-radius: 12px; padding: .75em 1.4em; font-weight: 700; color: #fff;
+  background: linear-gradient(120deg, var(--a1), var(--a2)); box-shadow: 0 6px 28px var(--glow);
+  transition: transform .2s, box-shadow .2s;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 10px 36px var(--glow); }
+.btn.ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); box-shadow: none; backdrop-filter: blur(10px); }
+.btn.small { padding: .45em .9em; font-size: .85rem; }
+.linkbtn { background: none; border: 0; color: var(--muted); text-decoration: underline; }
+
+/* ---------- 3. Шапка ---------- */
+.top {
+  position: fixed; inset: 0 0 auto 0; z-index: 40; height: 60px; display: flex; align-items: center; gap: 1rem;
+  padding: 0 clamp(1rem, 3vw, 2rem); background: var(--nav-bg); backdrop-filter: blur(16px); border-bottom: 1px solid var(--line);
+}
+.brand { font: 700 1.1rem "Unbounded", sans-serif; letter-spacing: .14em; }
+.nav { display: flex; gap: .3rem; margin: 0 auto; }
+.nav a { padding: .45em .9em; border-radius: 10px; color: var(--muted); transition: .2s; }
+.nav a:hover { color: var(--text); background: var(--surface); }
+.nav a.on { color: var(--text); background: var(--surface); box-shadow: inset 0 -2px 0 var(--a1); }
+.chip { font-size: .85rem; padding: .3em .8em; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); }
+.chip b { color: var(--a1); }
+
+/* ---------- 4. Hero: система орбит (чистый CSS) ---------- */
+.hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: center; min-height: 70vh; }
+.hero p { color: var(--muted); font-size: 1.1rem; max-width: 46ch; }
+.hero .row { margin-top: 1.8rem; }
+.system { position: relative; aspect-ratio: 1; max-width: 460px; width: 100%; margin-inline: auto; }
+.sun {
+  position: absolute; inset: 38%; border-radius: 50%; display: grid; place-items: center;
+  font: 700 1.8rem "Unbounded", sans-serif; color: #fff;
+  background: radial-gradient(circle at 35% 30%, var(--a2), var(--a1)); box-shadow: 0 0 70px var(--glow);
+}
+.orb { position: absolute; border-radius: 50%; border: 1px dashed var(--line); animation: spin linear infinite; }
+.orb i { position: absolute; top: -7px; left: 50%; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: var(--a1); box-shadow: 0 0 16px var(--a1); }
+.orb .m { top: auto; bottom: -5px; width: 10px; height: 10px; background: var(--a2); box-shadow: 0 0 12px var(--a2); }
+.o1 { inset: 24%; animation-duration: 9s; } .o2 { inset: 10%; animation-duration: 16s; animation-direction: reverse; } .o3 { inset: 0; animation-duration: 26s; }
+.o2 i { background: var(--a2); box-shadow: 0 0 16px var(--a2); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 3rem; }
+.features h2 { grid-column: 1 / -1; }
+.feat { padding: 1.2rem; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); backdrop-filter: blur(12px); transition: .25s; display: grid; gap: .4rem; align-content: start; }
+.feat:hover { transform: translateY(-4px); border-color: var(--a1); box-shadow: 0 10px 40px var(--glow); }
+.feat b { font: 500 1.05rem "Unbounded", sans-serif; } .feat span { color: var(--muted); font-size: .92rem; }
+
+/* ---------- 5. Карточки и элементы ---------- */
+.page-head { margin-bottom: 1.5rem; } .page-head p { color: var(--muted); margin: 0; }
+.name { background: none; border: 0; padding: 0; font: inherit; color: var(--a1); border-bottom: 2px dashed var(--a1); }
+.grid { display: grid; gap: 1rem; }
+.dash { grid-template-columns: repeat(3, 1fr); } .dash .wide { grid-column: span 2; } .dash .level { grid-column: span 3; }
+.ach { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); margin-top: 1rem; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 1.2rem; backdrop-filter: blur(14px); margin-bottom: 0; }
+.dash .card, .ach .card { transition: transform .25s, border-color .25s; } .dash .card:hover, .ach .card:hover { transform: translateY(-3px); border-color: var(--a1); }
+.card.level { display: flex; align-items: center; gap: 1.5rem; }
+.big { font: 700 2rem "Unbounded", sans-serif; background: linear-gradient(120deg, var(--a1), var(--a2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.stat p { margin: .2rem 0 0; }
+.ring { position: relative; width: 120px; height: 120px; flex: none; }
+.ring svg { width: 100%; height: 100%; } .ring circle { fill: none; stroke-width: 10; }
+.ring-bg { stroke: var(--line); } .ring-fg { stroke: url(#rg); stroke-linecap: round; transition: stroke-dashoffset 1s; filter: drop-shadow(0 0 6px var(--a1)); }
+.ring-n { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.ring-n b { font: 700 1.8rem "Unbounded", sans-serif; line-height: 1; } .ring-n span { font-size: .7rem; color: var(--muted); }
+.bar { height: 8px; border-radius: 8px; background: var(--line); overflow: hidden; margin-top: .5rem; }
+.bar i { display: block; height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--a1), var(--a2)); transition: width .6s cubic-bezier(.2, .7, .2, 1); }
+.mini { margin-bottom: .9rem; } .mini span { display: flex; justify-content: space-between; gap: 1rem; font-size: .92rem; }
+.more { color: var(--a1); font-size: .9rem; }
+
+.week { display: flex; gap: .6rem; height: 150px; align-items: flex-end; }
+.day { flex: 1; display: flex; flex-direction: column; align-items: center; gap: .2rem; height: 100%; font-size: .8rem; }
+.day .col { flex: 1; width: 100%; display: flex; align-items: flex-end; border-radius: 8px; background: var(--line); overflow: hidden; }
+.day i { width: 100%; border-radius: 8px; background: linear-gradient(180deg, var(--a1), var(--a2)); transition: height .7s; min-height: 3px; }
+.day span { color: var(--muted); }
+
+.form { display: flex; flex-wrap: wrap; gap: .8rem; align-items: end; margin-bottom: 1.2rem; }
+.form label { display: grid; gap: .3rem; font-size: .85rem; color: var(--muted); min-width: 130px; }
+input, select { padding: .65em .9em; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); width: 100%; color-scheme: dark; }
+[data-theme="light"] input, [data-theme="light"] select { color-scheme: light; }
+select option { background: #1b1d2b; color: #f2f3fa; }
+[data-theme="light"] select option { background: #fff; color: #14162b; }
+input:focus, select:focus { outline: none; border-color: var(--a1); box-shadow: 0 0 0 3px var(--glow); }
+
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+.list.card { gap: 0; padding: .4rem 1.2rem; }
+.item { display: flex; align-items: center; gap: .9rem; padding: .8rem 0; border-bottom: 1px solid var(--line); animation: enter .35s; }
+.item:last-child { border-bottom: 0; }
+.item.done .title { text-decoration: line-through; color: var(--muted); }
+.title { display: block; font-weight: 500; } small { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .25rem; align-items: center; }
+.tag { font-size: .75rem; padding: .1em .6em; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.tag.p-high { color: #ff7b8a; border-color: #ff7b8a66; } .tag.p-mid { color: #fbbf24; border-color: #fbbf2466; } .tag.p-low { color: #6fe3a1; border-color: #6fe3a166; }
+.tag.xp { color: var(--a1); border-color: var(--a1); }
+.check { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--line); background: none; display: grid; place-items: center; flex: none; transition: .2s; }
+.check:hover { border-color: var(--a1); } .done .check { background: linear-gradient(120deg, var(--a1), var(--a2)); border-color: transparent; color: #fff; }
+.icon { width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); transition: .2s; flex: none; }
+.icon:hover { border-color: var(--a1); background: var(--glow); }
+.tabs { display: flex; gap: .4rem; margin-bottom: .8rem; }
+.tab { padding: .45em 1.1em; border-radius: 999px; border: 1px solid var(--line); background: none; color: var(--muted); }
+.tab.on { color: #fff; background: linear-gradient(120deg, var(--a1), var(--a2)); border-color: transparent; }
+
+.goal { display: flex; align-items: center; gap: 1rem; } .pct { font: 700 1.1rem "Unbounded", sans-serif; } .acts { display: flex; gap: .4rem; }
+.habit { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.dots { display: flex; gap: .4rem; }
+.dot { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--line); background: none; position: relative; transition: .2s; }
+.dot span { position: absolute; inset: 0; display: grid; place-items: center; font-size: .65rem; color: var(--muted); }
+.dot:hover { border-color: var(--a1); } .dot.on { background: linear-gradient(120deg, var(--a1), var(--a2)); border-color: transparent; box-shadow: 0 0 14px var(--glow); } .dot.on span { color: #fff; }
+.cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; max-width: 420px; margin: .8rem 0; }
+.cal b { font-size: .7rem; color: var(--muted); text-align: center; font-weight: 400; }
+.cell { aspect-ratio: 1; border-radius: 6px; background: color-mix(in srgb, var(--a1) calc(var(--k) * 90%), var(--line)); }
+.cell.empty { background: none; }
+
+.badge { text-align: center; opacity: .6; } .badge.ok { opacity: 1; border-color: var(--a1); box-shadow: 0 0 30px var(--glow); }
+.badge p { font-size: .88rem; margin: .2rem 0 .5rem; }
+.medal { width: 54px; height: 54px; margin: 0 auto .6rem; border-radius: 50%; display: grid; place-items: center; font-size: 1.4rem; border: 2px dashed var(--line); }
+.badge.ok .medal { background: linear-gradient(120deg, var(--a1), var(--a2)); color: #fff; border: 0; animation: pop .6s; }
+@keyframes pop { 0% { transform: scale(.4); } 60% { transform: scale(1.2); } }
+
+.foot { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 1.5rem clamp(1rem, 3vw, 2rem); border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
+
+/* ---------- 7. Загрузчик и уведомления ---------- */
+.loader { position: fixed; inset: 0; z-index: 100; background: var(--bg); display: grid; place-content: center; justify-items: center; gap: 1.5rem; transition: opacity .6s, visibility .6s; }
+.loader.hide { opacity: 0; visibility: hidden; }
+.loader b { font: 700 1.2rem "Unbounded", sans-serif; letter-spacing: .4em; padding-left: .4em; }
+.l-orbit { width: 90px; height: 90px; border-radius: 50%; border: 1px dashed var(--line); position: relative; animation: spin 1.4s linear infinite; }
+.l-orbit::after { content: ""; position: absolute; inset: 32px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--a2), var(--a1)); box-shadow: 0 0 30px var(--glow); }
+.l-orbit i { position: absolute; top: -6px; left: 50%; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: var(--a1); box-shadow: 0 0 14px var(--a1); }
+.toasts { position: fixed; right: 1rem; bottom: 1rem; z-index: 90; display: grid; gap: .6rem; }
+.toast { padding: .8em 1.2em; border-radius: 14px; background: var(--nav-bg); backdrop-filter: blur(16px); border: 1px solid var(--line); border-left: 3px solid var(--a1); box-shadow: 0 10px 40px rgb(0 0 0 / .35); animation: toast .4s cubic-bezier(.2, .8, .2, 1); }
+.toast.ach, .toast.level { border-left-color: #fbbf24; font-weight: 700; } .toast.out { opacity: 0; transform: translateX(30px); transition: .4s; }
+@keyframes toast { from { opacity: 0; transform: translateX(40px); } }
+
+/* ---------- 8. Адаптивность ---------- */
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; min-height: 0; } .system { max-width: 320px; }
+  .features, .dash { grid-template-columns: 1fr 1fr; } .dash .level { grid-column: span 2; } .dash .wide { grid-column: span 2; }
+  /* Меню уходит вниз экрана как в мобильном приложении */
+  .nav { position: fixed; inset: auto 0 0 0; margin: 0; justify-content: space-around; padding: .4rem; background: var(--nav-bg); backdrop-filter: blur(16px); border-top: 1px solid var(--line); z-index: 40; }
+  .nav a { padding: .5em .4em; font-size: .72rem; text-align: center; }
+  .chip { margin-left: auto; } .view { padding-bottom: 6rem; } .toasts { bottom: 4.5rem; }
+}
+@media (max-width: 520px) {
+  .features, .dash { grid-template-columns: 1fr; } .dash .level, .dash .wide { grid-column: auto; }
+  .goal { flex-wrap: wrap; } .card.level { flex-direction: column; text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }

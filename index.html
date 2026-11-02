@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ORBIT — система развития</title>
+  <!-- Unbounded (заголовки) и Onest (текст) поддерживают кириллицу.
+       Без интернета включатся системные шрифты из style.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Загрузочная анимация: планета на орбите. Убирается из app.js -->
+  <div id="loader" class="loader"><div class="l-orbit"><i></i></div><b>ORBIT</b></div>
+
+  <header class="top">
+    <a class="brand" href="#/home">ORBIT</a>
+    <nav class="nav" aria-label="Разделы">
+      <a data-route="home" href="#/home">Главная</a>
+      <a data-route="dashboard" href="#/dashboard">Панель</a>
+      <a data-route="goals" href="#/goals">Цели</a>
+      <a data-route="tasks" href="#/tasks">Задачи</a>
+      <a data-route="habits" href="#/habits">Привычки</a>
+      <a data-route="achievements" href="#/achievements">Награды</a>
+    </nav>
+    <span id="chip" class="chip"></span>
+    <button class="btn ghost small" data-action="theme" title="Сменить тему">Тема: <span id="theme-name"></span></button>
+  </header>
+
+  <main id="view" class="view"></main>
+
+  <footer class="foot">
+    <span>ORBIT · учебный проект. Данные хранятся в твоём браузере.</span>
+    <button class="linkbtn" data-action="reset">Сбросить данные</button>
+  </footer>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <!-- Порядок важен: данные, шаблоны, управление -->
+  <script src="js/store.js"></script>
+  <script src="js/views.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

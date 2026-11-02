@@ -1,11 +1,3 @@
-/* ==========================================================
-   ORBIT — стили
-   1. Темы (переменные)  2. База  3. Шапка  4. Hero с орбитами
-   5. Карточки и элементы  6. Страницы  7. Загрузчик и toast
-   8. Адаптивность
-   ========================================================== */
-
-/* ---------- 1. Темы: переключаются атрибутом data-theme на <html> ---------- */
 :root, [data-theme="dark"] {
   --bg: #06070b; --surface: rgb(255 255 255 / .05); --line: rgb(255 255 255 / .1);
   --text: #f2f3fa; --muted: #9a9fb8; --a1: #8b5cf6; --a2: #3b82f6; --glow: rgb(139 92 246 / .35);
@@ -22,14 +14,12 @@
   --nav-bg: rgb(241 242 250 / .8);
 }
 
-/* ---------- 2. База ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0; color: var(--text); background: var(--bg); min-height: 100vh;
   font: 400 1rem/1.6 "Onest", "Segoe UI", system-ui, sans-serif; transition: background .4s, color .4s;
 }
-/* Мягкие цветные «туманности» на фоне */
 body::before {
   content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background: radial-gradient(60vmax 40vmax at 85% -10%, var(--glow), transparent 60%),
@@ -43,7 +33,7 @@ button { cursor: pointer; }
 :focus-visible { outline: 2px solid var(--a1); outline-offset: 2px; }
 .muted { color: var(--muted); } .grow { flex: 1; min-width: 0; } .row { display: flex; flex-wrap: wrap; gap: 1rem; }
 .view { max-width: 1100px; margin: 0 auto; padding: 5.5rem 1.2rem 3rem; }
-.view.enter { animation: enter .5s cubic-bezier(.2, .7, .2, 1); }   /* переход между страницами */
+.view.enter { animation: enter .5s cubic-bezier(.2, .7, .2, 1); }   /* перехід між сторінками */
 @keyframes enter { from { opacity: 0; transform: translateY(14px); filter: blur(6px); } }
 
 .btn {
@@ -56,7 +46,6 @@ button { cursor: pointer; }
 .btn.small { padding: .45em .9em; font-size: .85rem; }
 .linkbtn { background: none; border: 0; color: var(--muted); text-decoration: underline; }
 
-/* ---------- 3. Шапка ---------- */
 .top {
   position: fixed; inset: 0 0 auto 0; z-index: 40; height: 60px; display: flex; align-items: center; gap: 1rem;
   padding: 0 clamp(1rem, 3vw, 2rem); background: var(--nav-bg); backdrop-filter: blur(16px); border-bottom: 1px solid var(--line);
@@ -69,7 +58,6 @@ button { cursor: pointer; }
 .chip { font-size: .85rem; padding: .3em .8em; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); }
 .chip b { color: var(--a1); }
 
-/* ---------- 4. Hero: система орбит (чистый CSS) ---------- */
 .hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: center; min-height: 70vh; }
 .hero p { color: var(--muted); font-size: 1.1rem; max-width: 46ch; }
 .hero .row { margin-top: 1.8rem; }
@@ -91,7 +79,7 @@ button { cursor: pointer; }
 .feat:hover { transform: translateY(-4px); border-color: var(--a1); box-shadow: 0 10px 40px var(--glow); }
 .feat b { font: 500 1.05rem "Unbounded", sans-serif; } .feat span { color: var(--muted); font-size: .92rem; }
 
-/* ---------- 5. Карточки и элементы ---------- */
+
 .page-head { margin-bottom: 1.5rem; } .page-head p { color: var(--muted); margin: 0; }
 .name { background: none; border: 0; padding: 0; font: inherit; color: var(--a1); border-bottom: 2px dashed var(--a1); }
 .grid { display: grid; gap: 1rem; }
@@ -162,7 +150,7 @@ input:focus, select:focus { outline: none; border-color: var(--a1); box-shadow: 
 
 .foot { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 1.5rem clamp(1rem, 3vw, 2rem); border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
 
-/* ---------- 7. Загрузчик и уведомления ---------- */
+
 .loader { position: fixed; inset: 0; z-index: 100; background: var(--bg); display: grid; place-content: center; justify-items: center; gap: 1.5rem; transition: opacity .6s, visibility .6s; }
 .loader.hide { opacity: 0; visibility: hidden; }
 .loader b { font: 700 1.2rem "Unbounded", sans-serif; letter-spacing: .4em; padding-left: .4em; }
@@ -174,11 +162,11 @@ input:focus, select:focus { outline: none; border-color: var(--a1); box-shadow: 
 .toast.ach, .toast.level { border-left-color: #fbbf24; font-weight: 700; } .toast.out { opacity: 0; transform: translateX(30px); transition: .4s; }
 @keyframes toast { from { opacity: 0; transform: translateX(40px); } }
 
-/* ---------- 8. Адаптивность ---------- */
+
 @media (max-width: 860px) {
   .hero { grid-template-columns: 1fr; min-height: 0; } .system { max-width: 320px; }
   .features, .dash { grid-template-columns: 1fr 1fr; } .dash .level { grid-column: span 2; } .dash .wide { grid-column: span 2; }
-  /* Меню уходит вниз экрана как в мобильном приложении */
+
   .nav { position: fixed; inset: auto 0 0 0; margin: 0; justify-content: space-around; padding: .4rem; background: var(--nav-bg); backdrop-filter: blur(16px); border-top: 1px solid var(--line); z-index: 40; }
   .nav a { padding: .5em .4em; font-size: .72rem; text-align: center; }
   .chip { margin-left: auto; } .view { padding-bottom: 6rem; } .toasts { bottom: 4.5rem; }
@@ -188,3 +176,330 @@ input:focus, select:focus { outline: none; border-color: var(--a1); box-shadow: 
   .goal { flex-wrap: wrap; } .card.level { flex-direction: column; text-align: center; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* Додаткова мобільна адаптація ORBIT */
+
+@media (max-width: 860px) {
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .view {
+    width: 100%;
+    padding: 5rem 1rem 7rem;
+  }
+
+  .top {
+    height: 58px;
+    gap: .6rem;
+    padding: 0 1rem;
+  }
+
+  .brand {
+    font-size: 1rem;
+  }
+
+  .nav {
+    padding: .55rem .3rem calc(.55rem + env(safe-area-inset-bottom));
+    gap: .2rem;
+  }
+
+  .nav a {
+    flex: 1;
+    min-width: 0;
+    padding: .55rem .2rem;
+    font-size: .75rem;
+    white-space: nowrap;
+  }
+
+  .chip {
+    font-size: .75rem;
+    padding: .3em .65em;
+  }
+
+  .hero {
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .hero p {
+    margin-inline: auto;
+    font-size: 1rem;
+  }
+
+  .hero .row {
+    justify-content: center;
+  }
+
+  .system {
+    width: min(100%, 320px);
+  }
+
+  .features,
+  .dash {
+    gap: .8rem;
+  }
+
+  .card {
+    min-width: 0;
+    padding: 1rem;
+  }
+
+  .form {
+    align-items: stretch;
+  }
+
+  .form label {
+    flex: 1 1 180px;
+    min-width: 0;
+  }
+
+  .form .btn {
+    min-height: 44px;
+  }
+
+  .item {
+    min-width: 0;
+    gap: .65rem;
+  }
+
+  .item > .grow {
+    overflow-wrap: anywhere;
+  }
+
+  .goal,
+  .habit {
+    min-width: 0;
+  }
+
+  .dots {
+    flex-wrap: wrap;
+  }
+
+  .toasts {
+    left: 1rem;
+    right: 1rem;
+    bottom: calc(4.5rem + env(safe-area-inset-bottom));
+  }
+
+  .toast {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 520px) {
+  .view {
+    padding: 4.8rem .85rem 7.5rem;
+  }
+
+  h1 {
+    font-size: 1.65rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .top {
+    padding-inline: .8rem;
+  }
+
+  .brand {
+    font-size: .9rem;
+    letter-spacing: .1em;
+  }
+
+  .chip {
+    font-size: .7rem;
+  }
+
+  .nav {
+    justify-content: space-between;
+    gap: .1rem;
+  }
+
+  .nav a {
+    font-size: .68rem;
+    padding: .55rem .1rem;
+  }
+
+  .hero .row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .system {
+    max-width: 280px;
+  }
+
+  .feat {
+    padding: 1rem;
+  }
+
+  .card {
+    border-radius: 15px;
+    padding: .9rem;
+  }
+
+  .page-head {
+    margin-bottom: 1rem;
+  }
+
+  .form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form label {
+    width: 100%;
+  }
+
+  .form .btn {
+    width: 100%;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    flex: 1;
+    padding: .5em .7em;
+    font-size: .85rem;
+  }
+
+  .goal {
+    align-items: flex-start;
+  }
+
+  .goal .grow {
+    flex-basis: 100%;
+  }
+
+  .acts {
+    flex-wrap: wrap;
+  }
+
+  .week {
+    gap: .3rem;
+    height: 120px;
+  }
+
+  .day {
+    font-size: .7rem;
+  }
+
+  .cal {
+    gap: 4px;
+  }
+
+  .dot {
+    width: 34px;
+    height: 34px;
+  }
+
+  .ring {
+    width: 105px;
+    height: 105px;
+  }
+
+  .foot {
+    padding-bottom: 1.5rem;
+    font-size: .8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .view {
+    padding-inline: .65rem;
+  }
+
+  .brand {
+    font-size: .8rem;
+  }
+
+  .nav a {
+    font-size: .62rem;
+  }
+
+  .chip {
+    font-size: .65rem;
+  }
+
+  .card {
+    padding: .75rem;
+  }
+
+  .dot {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 860px) {
+
+  .top {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--nav-bg);
+  }
+
+  .nav {
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+  }
+
+
+  .top .btn.small {
+    padding: .4em .7em;
+    font-size: .75rem;
+  }
+}
+
+@media (max-width: 520px) {
+  #theme-name { display: none; } 
+}
+
+.foot > span { display: none; }
+.foot { justify-content: flex-end; }
+
+
+@media (max-width: 860px) {
+
+  .system { display: none; }
+
+  .hero { min-height: 0; padding-top: .5rem; }
+  .features { margin-top: 1.5rem; }
+  .view { padding-bottom: 1.5rem; }
+
+  .foot {
+    justify-content: center;
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+.chip { cursor: pointer; }
+.pf { grid-template-columns: repeat(2, 1fr); }
+.pf-account { grid-row: span 2; }
+.pf-form { display: grid; gap: .8rem; margin: .8rem 0; }
+.pf-form label { display: grid; gap: .3rem; font-size: .85rem; color: var(--muted); }
+.pf-email { font-weight: 700; overflow-wrap: anywhere; margin: 0 0 .3rem; }
+.pf-msg { margin: .8rem 0 0; font-size: .9rem; }
+.pf-msg.ok { color: #6fe3a1; } .pf-msg.err { color: #ff7b8a; }
+.pf-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: .8rem; }
+.pf-stats div { display: grid; }
+.pf-stats .big { font-size: 1.5rem; }
+.btn.danger { background: linear-gradient(120deg, #ef4444, #f97316); box-shadow: 0 6px 28px rgb(239 68 68 / .3); }
+.pf-danger { margin-top: 1rem; border-color: rgb(239 68 68 / .35); }
+
+
+@media (min-width: 861px) { .foot { display: none; } }
+@media (max-width: 860px) { .foot { border-top: 0; } }
+@media (max-width: 860px) { .pf { grid-template-columns: 1fr; } .pf-account { grid-row: auto; } }
+@media (max-width: 520px) { .nav a { font-size: .6rem; } }

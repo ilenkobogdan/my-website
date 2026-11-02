@@ -177,7 +177,7 @@ input:focus, select:focus { outline: none; border-color: var(--a1); box-shadow: 
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
-/* Додаткова мобільна адаптація ORBIT */
+/* Додаткова мобільна адаптація ORBIT  */
 
 @media (max-width: 860px) {
   html, body {
